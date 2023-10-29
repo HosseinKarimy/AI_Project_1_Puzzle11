@@ -2,10 +2,10 @@
 {
     public class Node
     {
-        public readonly int?[] puzzle = new int?[12];
+        public readonly string puzzle;
         public readonly int SpaceIndex;
 
-        public Node(int?[] puzzle, int spaceIndex)
+        public Node(string puzzle, int spaceIndex)
         {
             this.puzzle = puzzle;
             SpaceIndex = spaceIndex;
@@ -18,12 +18,16 @@
 
         public static bool operator ==(Node? left, Node? right)
         {
-            return left!.GetHashCode == right!.GetHashCode;
+            if(left is null || right is null)
+                return false;
+            return left.GetHashCode() == right.GetHashCode();
         }
 
         public static bool operator !=(Node? left, Node? right)
         {
-            return left!.GetHashCode != right!.GetHashCode;
+            if (left is null || right is null)
+                return true;
+            return left!.GetHashCode() != right!.GetHashCode();
         }
 
         public override bool Equals(object? obj)
