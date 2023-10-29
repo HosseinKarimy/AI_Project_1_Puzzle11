@@ -65,11 +65,13 @@ void PrintResult(Node node, ref int level)
 {
     if (node.parent is null)
     {
-        Console.WriteLine("start = " + node.puzzle);
+        Console.WriteLine("level: " + level++);
+        node.Print();
+        Console.WriteLine("____________________________________");
         return;
     }
     PrintResult(node.parent, ref level);
-    Console.WriteLine("level: " + ++level);
+    Console.WriteLine("level: " + level++);
     node.Print();
     Console.WriteLine("____________________________________");
 }

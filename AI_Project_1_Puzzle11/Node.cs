@@ -8,7 +8,6 @@
 
         public Node(string puzzle, int spaceIndex , Node? parent)
         {
-
             this.puzzle = puzzle;
             this.spaceIndex = spaceIndex;
             this.parent = parent;
