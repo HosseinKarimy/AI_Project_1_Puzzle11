@@ -1,14 +1,22 @@
 ﻿using AI_Project_1_Puzzle11;
+using System.Diagnostics;
 
 Queue<Node> frontier = new();
 
-var rootPuzzle = "566274131 AB";
+//var rootPuzzle = "566274131 AB";
+var rootPuzzle = "15562146 777";
 var goal = new Node(CalculateGoal(rootPuzzle), 11, null);
-var root = new Node(rootPuzzle, 9, null);
+var root = new Node(rootPuzzle, 8, null);
 frontier.Enqueue(root);
+
+
+Stopwatch sw = new();
+sw.Start();
 
 GraphSearch();
 //TreeSearch();
+
+
 
 void TreeSearch()
 {
@@ -17,6 +25,10 @@ void TreeSearch()
         var node = frontier.Dequeue();
         if (node == goal)
         {
+            sw.Stop();
+            TimeSpan ts = sw.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            Console.WriteLine("RunTime: " + elapsedTime);
             Console.WriteLine($"frontier count = {frontier.Count}");
             int level = 0;
             PrintResult(node, ref level);
@@ -39,8 +51,12 @@ void GraphSearch()
         var node = frontier.Dequeue();
         if (node == goal)
         {
+            sw.Stop();
+            TimeSpan ts = sw.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            Console.WriteLine("RunTime: " + elapsedTime);
             Console.WriteLine($"frontier count = {frontier.Count}");
-            Console.WriteLine($"explored count = {frontierAndExplored.Count}");
+            Console.WriteLine($"explored count = {frontierAndExplored.Count - frontier.Count}");
             int level = 0;
             PrintResult(node, ref level);
             return;
@@ -65,13 +81,13 @@ void PrintResult(Node node, ref int level)
 {
     if (node.parent is null)
     {
-        Console.WriteLine("level: " + level++);
+        Console.WriteLine("level " + level++ + ":");
         node.Print();
         Console.WriteLine("____________________________________");
         return;
     }
     PrintResult(node.parent, ref level);
-    Console.WriteLine("level: " + level++);
+    Console.WriteLine("level " + level++ + ":");
     node.Print();
     Console.WriteLine("____________________________________");
 }
