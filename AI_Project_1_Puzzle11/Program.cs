@@ -6,7 +6,7 @@ Queue<Node> FromRootFrontier = new();
 Queue<Node> FromGoalFrontier = new();
 
 //var rootPuzzle = "566274131 AB";
-var rootPuzzle = "5263478 3453";
+var rootPuzzle = "526347 93453";
 var goal = new Node(CalculateGoal(rootPuzzle), 11, null);
 var root = new Node(rootPuzzle, rootPuzzle.IndexOf(' '), null);
 Node commonNode = null;
@@ -37,9 +37,6 @@ void GraphSearch(Queue<Node> frontier, HashSet<Node> frontierAndExplored, HashSe
         if (other.Contains(node))
         {
             sw.Stop();
-            TimeSpan ts = sw.Elapsed;
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-
             commonNode = node;
 
             tokenSource.Cancel();
@@ -67,15 +64,22 @@ Console.WriteLine(commonNode?.puzzle);
 var nodeFromGoal = frontierAndExplored_FromGoalPath.First(x=> x.GetHashCode() == commonNode!.GetHashCode());
 var nodeFromRoot = frontierAndExplored_FromRootPath.First(x => x.GetHashCode() == commonNode!.GetHashCode());
 
+TimeSpan ts = sw.Elapsed;
+string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+Console.WriteLine("RunTime: " + elapsedTime);
+Console.WriteLine($"From Root frontier count = {FromRootFrontier.Count}");
+Console.WriteLine($"From Root explored count = {frontierAndExplored_FromRootPath.Count - FromRootFrontier.Count}");
+Console.WriteLine($"From Goal frontier count = {FromGoalFrontier.Count}");
+Console.WriteLine($"From Goal explored count = {frontierAndExplored_FromGoalPath.Count - FromGoalFrontier.Count}");
+Console.WriteLine("______________________________________________________________________");
+
 int level = 0;
 PrintResult(nodeFromRoot, ref level);
 PrintResult2(nodeFromGoal, ref level);
 
 return 1;
 
-//Console.WriteLine("RunTime: " + elapsedTime);
-//Console.WriteLine($"frontier count = {frontier.Count}");
-//Console.WriteLine($"explored count = {frontierAndExplored.Count - frontier.Count}");
+
 
 
 
