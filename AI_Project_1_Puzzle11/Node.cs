@@ -15,7 +15,7 @@
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(puzzle, spaceIndex);
+            return HashCode.Combine(puzzle);
         }
 
         public static bool operator ==(Node? left, Node? right)
