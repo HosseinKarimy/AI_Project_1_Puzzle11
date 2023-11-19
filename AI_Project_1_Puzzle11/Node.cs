@@ -4,13 +4,29 @@
     {
         public readonly string puzzle;
         public readonly int spaceIndex;
+        public readonly int Manhattan;
         public readonly Node? parent;
 
-        public Node(string puzzle, int spaceIndex , Node? parent)
+        public Node(string puzzle, int spaceIndex, Node? parent)
         {
             this.puzzle = puzzle;
             this.spaceIndex = spaceIndex;
             this.parent = parent;
+            Manhattan = CalculateManhattanDistance();
+        }
+
+        private int CalculateManhattanDistance()
+        {
+            int ManhattanDistance = 0;
+            for (int i = 0; i < 12; i++)
+            {
+                if (puzzle[i] == ' ')
+                {
+                    continue;
+                }
+                ManhattanDistance += FindManhattan(i.FindXY(), puzzle[i].ToInt().FindXY());
+            }
+            return ManhattanDistance;
         }
 
         public override int GetHashCode()
@@ -58,14 +74,14 @@
                  new Node(Swap(0,4),4, this)
                 };
 
-           else if (spaceIndex == 1)
+            else if (spaceIndex == 1)
                 return new List<Node>() {
                  new Node(Swap(1,0),0, this),
                  new Node(Swap(1,2),2, this),
                  new Node(Swap(1,5),5, this),
                 };
 
-            else if(spaceIndex == 2)
+            else if (spaceIndex == 2)
                 return new List<Node>() {
                  new Node(Swap(2,1),1, this),
                  new Node(Swap(2,3),3, this),
@@ -144,16 +160,80 @@
             return new string(chars);
         }
 
-        public void Print()
+        private static int FindManhattan((int x, int y) CurrentPos, (int x, int y) CorrectPos)
+        {
+            return Math.Abs(CurrentPos.x - CorrectPos.x) + Math.Abs(CurrentPos.y - CorrectPos.y);
+        }
+
+        public static void Print(string puzzle)
         {
             for (int i = 0; i < 3; i++)
             {
-                for(int j = 0; j < 4; j++)
+                for (int j = 0; j < 4; j++)
                 {
-                    Console.Write($"{puzzle[i*4 + j]} ");
+                    Console.Write($"{puzzle[i * 4 + j]} ");
                 }
                 Console.WriteLine();
             }
         }
     }
 }
+
+public static class ExtensionMethods // Extensions
+{
+    public static char ToChar(this int number)
+    {
+        return (number + 1) switch
+        {
+            1 => '1',
+            2 => '2',
+            3 => '3',
+            4 => '4',
+            5 => '5',
+            6 => '6',
+            7 => '7',
+            8 => '8',
+            9 => '9',
+            10 => 'A',
+            11 => 'B',
+            12 => 'C',
+            _ => '0',// or any other default value
+        };
+    }
+
+    public static int ToInt(this char ch)
+    {
+        return (ch) switch
+        {
+            '1' => 0,
+            '2' => 1,
+            '3' => 2,
+            '4' => 3,
+            '5' => 4,
+            '6' => 5,
+            '7' => 6,
+            '8' => 7,
+            '9' => 8,
+            'A' => 9,
+            'B' => 10,
+            'C' => 11,
+            _ => 0 // or any other default value
+        };
+    }
+
+    public static (int, int) FindXY(this int index)
+    {
+        return (index / 4, index % 4);
+    }
+
+    public static string ReplaceCharAtIndex(this string input, int index, char newChar)
+    {
+
+        string before = input[..index];
+
+        string after = input[(index + 1)..];
+
+        return before + newChar + after;
+    }
+}
+
