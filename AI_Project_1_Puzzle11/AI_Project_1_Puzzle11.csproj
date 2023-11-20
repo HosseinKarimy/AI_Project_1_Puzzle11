@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BFS\BFS_Approach.csproj" />
+    <ProjectReference Include="..\BiDirectional_Aproach\BiDirectional_Approach.csproj" />
   </ItemGroup>
 
 </Project>
