@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BFS\BFS.csproj" />
+    <ProjectReference Include="..\BFS\BFS_Aproach.csproj" />
   </ItemGroup>
 
 </Project>

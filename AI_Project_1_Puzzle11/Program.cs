@@ -7,6 +7,8 @@ var bfs = new BFS(rootPuzzle, CalculateGoal(rootPuzzle));
 
 bfs.GraphSearch();
 
+
+
 static string CalculateGoal(string root)
 {
     char[] chars = root.ToCharArray();
