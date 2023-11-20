@@ -1,12 +1,12 @@
 ﻿using AI_Project_1_Puzzle11;
 using System.Diagnostics;
-using System.Xml.Linq;
 
 Queue<Node> FromRootFrontier = new();
 Queue<Node> FromGoalFrontier = new();
 
 //var rootPuzzle = "566274131 AB";
-var rootPuzzle = "526347 93453";
+//var rootPuzzle = "526347 93453";
+var rootPuzzle = "15562146 777";
 var goal = new Node(CalculateGoal(rootPuzzle), 11, null);
 var root = new Node(rootPuzzle, rootPuzzle.IndexOf(' '), null);
 Node commonNode = null;
@@ -60,7 +60,12 @@ FromRootThread.Join();
 FromGoalThread.Join();
 tokenSource.Dispose();
 
-Console.WriteLine(commonNode?.puzzle);
+if (commonNode is null)
+{
+    Console.WriteLine("Not Found");
+    return -1;
+}
+
 var nodeFromGoal = frontierAndExplored_FromGoalPath.First(x=> x.GetHashCode() == commonNode!.GetHashCode());
 var nodeFromRoot = frontierAndExplored_FromRootPath.First(x => x.GetHashCode() == commonNode!.GetHashCode());
 
@@ -77,7 +82,7 @@ int level = 0;
 PrintResult(nodeFromRoot, ref level);
 PrintResult2(nodeFromGoal, ref level);
 
-return 1;
+return 0;
 
 
 
