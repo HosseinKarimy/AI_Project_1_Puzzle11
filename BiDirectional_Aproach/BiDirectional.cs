@@ -73,11 +73,11 @@ namespace BiDirectional_Approach
                 if (tokenSource.IsCancellationRequested)
                     break;
                 var node = frontier.Dequeue();
-                myEvent.WaitOne();
+               // myEvent.WaitOne();
                 if (other.Contains(node))
                 {
                     commonNode = node;
-                    otherEvent.Set();
+              //      otherEvent.Set();
                     tokenSource.Cancel();
                 }
                 frontierAndExplored.Add(node);
@@ -89,7 +89,7 @@ namespace BiDirectional_Approach
                         frontier.Enqueue(n);
                     }
                 }
-                otherEvent.Set();
+             //   otherEvent.Set();
             }
         }
 
