@@ -1,96 +1,11 @@
-﻿using AI_Project_1_Puzzle11;
-using System.Diagnostics;
+﻿//var rootPuzzle = "566274131 AB";
+using BFS_Approach;
 
-Queue<Node> frontier = new();
-
-//var rootPuzzle = "566274131 AB";
 var rootPuzzle = "15562146 777";
-var goal = new Node(CalculateGoal(rootPuzzle), 11, null);
-var root = new Node(rootPuzzle, 8, null);
-frontier.Enqueue(root);
 
+var bfs = new BFS(rootPuzzle, CalculateGoal(rootPuzzle));
 
-Stopwatch sw = new();
-sw.Start();
-
-GraphSearch();
-//TreeSearch();
-
-
-
-void TreeSearch()
-{
-    while (frontier.Count > 0)
-    {
-        var node = frontier.Dequeue();
-        if (node == goal)
-        {
-            sw.Stop();
-            TimeSpan ts = sw.Elapsed;
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            Console.WriteLine("RunTime: " + elapsedTime);
-            Console.WriteLine($"frontier count = {frontier.Count}");
-            int level = 0;
-            PrintResult(node, ref level);
-            return;
-        }
-
-        foreach (Node n in node.GetActions())
-        {
-            frontier.Enqueue(n);
-        }
-    }
-}
-
-void GraphSearch()
-{
-    HashSet<Node> frontierAndExplored = new();
-
-    while (frontier.Count > 0)
-    {
-        var node = frontier.Dequeue();
-        if (node == goal)
-        {
-            sw.Stop();
-            TimeSpan ts = sw.Elapsed;
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            Console.WriteLine("RunTime: " + elapsedTime);
-            Console.WriteLine($"frontier count = {frontier.Count}");
-            Console.WriteLine($"explored count = {frontierAndExplored.Count - frontier.Count}");
-            int level = 0;
-            PrintResult(node, ref level);
-            return;
-        }
-        frontierAndExplored.Add(node);
-
-        foreach (Node n in node.GetActions())
-        {
-            if (frontierAndExplored.Add(n))
-            {
-                frontier.Enqueue(n);
-            }
-        }
-
-    }
-}
-
-return 1;
-
-
-void PrintResult(Node node, ref int level)
-{
-    if (node.parent is null)
-    {
-        Console.WriteLine("level " + level++ + ":");
-        node.Print();
-        Console.WriteLine("____________________________________");
-        return;
-    }
-    PrintResult(node.parent, ref level);
-    Console.WriteLine("level " + level++ + ":");
-    node.Print();
-    Console.WriteLine("____________________________________");
-}
+bfs.GraphSearch();
 
 static string CalculateGoal(string root)
 {
