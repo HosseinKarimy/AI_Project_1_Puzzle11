@@ -137,7 +137,7 @@ public class Node
         else if (spaceIndex == 11)
             return new List<Node>() {
              new Node(Swap(11,7),7, this),
-             new Node(Swap(11,6),6, this)
+             new Node(Swap(11,10),10, this)
             };
 
         throw new Exception("SpaceIndex out of range");
