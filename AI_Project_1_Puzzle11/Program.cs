@@ -11,14 +11,14 @@ var MappedRoot = MapPuzzle(rootPuzzle, realGoal);
 var root = new Node(MappedRoot, MappedRoot.IndexOf(' '), null);
 var goal = new Node(CalculateGoal(MappedRoot), 11, null);
 
-frontier.Enqueue(root, root.Manhattan);
+frontier.Enqueue(root, root.f);
 
 
 Stopwatch sw = new();
 sw.Start();
 
-GraphSearch();
-//TreeSearch();
+//GraphSearch();
+TreeSearch();
 
 
 
@@ -41,7 +41,7 @@ void TreeSearch()
 
         foreach (Node n in node.GetActions())
         {
-            frontier.Enqueue(n, n.Manhattan);
+            frontier.Enqueue(n, n.f);
         }
     }
 }
@@ -71,7 +71,7 @@ void GraphSearch()
         {
             if (frontierAndExplored.Add(n))
             {
-                frontier.Enqueue(n, n.Manhattan);
+                frontier.Enqueue(n, n.f);
             }
         }
 

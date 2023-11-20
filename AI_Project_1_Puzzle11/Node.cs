@@ -4,7 +4,7 @@
     {
         public readonly string puzzle;
         public readonly int spaceIndex;
-        public readonly int Manhattan;
+        public readonly int f;
         public readonly Node? parent;
 
         public Node(string puzzle, int spaceIndex, Node? parent)
@@ -12,7 +12,7 @@
             this.puzzle = puzzle;
             this.spaceIndex = spaceIndex;
             this.parent = parent;
-            Manhattan = CalculateManhattanDistance();
+            f = CalculateManhattanDistance() + parent?.f + 1 ?? 0;
         }
 
         private int CalculateManhattanDistance()
