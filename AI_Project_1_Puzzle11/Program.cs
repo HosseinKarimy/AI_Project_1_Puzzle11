@@ -1,12 +1,13 @@
 ﻿using BFS_Approach;
 using BiDirectional_Approach;
 
-var rootPuzzle = "566274131 AB";
+//var rootPuzzle = "566274131 AB";
 //var rootPuzzle = "15562146 777";
+var rootPuzzle = "64 85B12793A";
 
-var bfs = new BFS(rootPuzzle, CalculateGoal(rootPuzzle));
+//var bfs = new BFS(rootPuzzle, CalculateGoal(rootPuzzle));
 
-bfs.GraphSearch();
+//bfs.GraphSearch();
 
 var bd = new BiDirectional(rootPuzzle, CalculateGoal(rootPuzzle));
 bd.BFS();
