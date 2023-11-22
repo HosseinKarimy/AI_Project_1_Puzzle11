@@ -3,6 +3,7 @@
 public class Node
 {
     public readonly string puzzle;
+    public static List<int>[] PosArray;
     public readonly int spaceIndex;
     public readonly int f;
     public readonly int g;
@@ -14,19 +15,38 @@ public class Node
         this.spaceIndex = spaceIndex;
         this.parent = parent;
         g = parent?.g + 1 ?? 0;
-        f = CalculateManhattanDistance() + g;
+        f = H() + g;
     }
 
-    private int CalculateManhattanDistance()
-    {
+    private int H()
+    {        
         int ManhattanDistance = 0;
+        int? temp = null;
         for (int i = 0; i < 12; i++)
         {
             if (puzzle[i] == ' ')
             {
                 continue;
             }
-            ManhattanDistance += FindManhattan(i.FindXY(), puzzle[i].ToInt().FindXY());
+            var list = PosArray[puzzle[i].ToInt()];
+            if (list.Contains(i)) 
+            {
+                continue;
+            } else
+            {
+                foreach (int index in list)
+                {
+                    if (puzzle[index] != puzzle[i])
+                    {
+                        int temp2 = FindManhattan(index.FindXY(), i.FindXY());
+                        if (temp is null || temp > temp2)
+                        {
+                            temp = temp2;
+                        }
+                    }
+                }
+            }
+            ManhattanDistance += temp ?? 0;
         }
         return ManhattanDistance;
     }

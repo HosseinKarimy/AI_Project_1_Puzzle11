@@ -7,14 +7,12 @@ namespace AStar_Approach;
 public class AStar
 {
     readonly Node root;
-    readonly string pattern;
-    readonly Node goal = new("123456789AB ", 11, null);
+    readonly Node goal;
 
     public AStar(string root, string goal)
     {
-        pattern = goal;
-        var mappedRoot = MapPuzzle(root, pattern);
-        this.root = new Node(mappedRoot, mappedRoot.IndexOf(' '), null);
+        this.goal = new Node(goal, goal.IndexOf(' '), null); ;
+        this.root = new Node(root, root.IndexOf(' '), null);
     }
 
     public List<string> GraphSearch()
@@ -114,7 +112,7 @@ public class AStar
         List<string> result = new();
         while (lastNode is not null)
         {
-            result.Add(UnMapPuzzle(lastNode.puzzle, pattern!));
+            result.Add(lastNode.puzzle);
             lastNode = lastNode.parent;
         }
         return result;
@@ -125,13 +123,13 @@ public class AStar
         if (node.parent is null)
         {
             Console.WriteLine("level " + level++ + ":");
-            Node.Print(UnMapPuzzle(node.puzzle, pattern!));
+            Node.Print(node.puzzle);
             Console.WriteLine("____________________________________");
             return;
         }
         PrintResult(node.parent, ref level);
         Console.WriteLine("level " + level++ + ":");
-        Node.Print(UnMapPuzzle(node.puzzle, pattern!));
+        Node.Print(node.puzzle);
         Console.WriteLine("____________________________________");
     }
 
@@ -146,38 +144,4 @@ public class AStar
             Node.Print(puzzle);
         }
     }
-
-    private static string MapPuzzle(string source, string pattern)
-    {
-        string mapped = string.Empty;
-        foreach (char c in source)
-        {
-            if (c == ' ')
-                mapped += ' ';
-            else
-            {
-                var index = pattern.IndexOf(c);
-                pattern = pattern.ReplaceCharAtIndex(index, ' ');
-                mapped += index.ToChar();
-            }
-        }
-        return mapped;
-    }
-
-    static string UnMapPuzzle(string source, string pattern)
-    {
-        string UnMapped = string.Empty;
-        foreach (char c in source)
-        {
-            if (c == ' ')
-                UnMapped += ' ';
-            else
-            {
-                char ch = pattern[c.ToInt()];
-                UnMapped += ch;
-            }
-        }
-        return UnMapped;
-    }
-
 }
