@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace BiDirectional_Approach
 {
@@ -16,7 +17,7 @@ namespace BiDirectional_Approach
             this.goal = new Node(goal, 11, null);
         }
 
-        public void BFS()
+        public (string status , List<string> steps) BFS()
         {
 
             FromRootFrontier.Enqueue(root);
@@ -43,26 +44,26 @@ namespace BiDirectional_Approach
             if (commonNode is null)
             {
                 Console.WriteLine("Not Found");
-                return;
+                return (null,null);
             }
 
             var nodeFromGoal = frontierAndExplored_FromGoalPath.First(x => x.GetHashCode() == commonNode!.GetHashCode());
             var nodeFromRoot = frontierAndExplored_FromRootPath.First(x => x.GetHashCode() == commonNode!.GetHashCode());
 
             TimeSpan ts = sw.Elapsed;
+            var result = new StringBuilder();
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            Console.WriteLine("RunTime: " + elapsedTime);
-            Console.WriteLine($"From Root frontier count = {FromRootFrontier.Count}");
-            Console.WriteLine($"From Root explored count = {frontierAndExplored_FromRootPath.Count - FromRootFrontier.Count}");
-            Console.WriteLine($"From Goal frontier count = {FromGoalFrontier.Count}");
-            Console.WriteLine($"From Goal explored count = {frontierAndExplored_FromGoalPath.Count - FromGoalFrontier.Count}");
-            Console.WriteLine("______________________________________________________________________");
+            result.AppendLine("RunTime: " + elapsedTime);
+            result.AppendLine($"From Root frontier count = {FromRootFrontier.Count}");
+            result.AppendLine($"From Root explored count = {frontierAndExplored_FromRootPath.Count - FromRootFrontier.Count}");
+            result.AppendLine($"From Goal frontier count = {FromGoalFrontier.Count}");
+            result.AppendLine($"From Goal explored count = {frontierAndExplored_FromGoalPath.Count - FromGoalFrontier.Count}");
 
-            int level = 0;
-            PrintResult(nodeFromRoot, ref level);
-            PrintResult2(nodeFromGoal.parent!, ref level);
+            //int level = 0;
+            //PrintResult(nodeFromRoot, ref level);
+            //PrintResult2(nodeFromGoal.parent!, ref level);
 
-            return;
+            return (result.ToString() , CalculatePath(nodeFromRoot,nodeFromGoal.parent));
 
         }
 
@@ -90,6 +91,34 @@ namespace BiDirectional_Approach
                     }
                 }
              //   otherEvent.Set();
+            }
+        }
+
+        public static List<string> CalculatePath(Node? lastNode_FromRoot , Node? lastNode_FromGoal)
+        {
+            List<string> result = new();
+            while (lastNode_FromRoot is not null)
+            {
+                result.Add(lastNode_FromRoot.puzzle);
+                lastNode_FromRoot = lastNode_FromRoot.parent;
+            }
+            result.Reverse();
+            while (lastNode_FromGoal is not null)
+            {
+                result.Add(lastNode_FromGoal.puzzle);
+                lastNode_FromGoal = lastNode_FromGoal.parent;
+            }
+            return result;
+        }
+
+        public static void PrintResult(List<string> result)
+        {
+            int level = 0;
+            foreach (var puzzle in result)
+            {
+                Console.WriteLine("____________________________________");
+                Console.WriteLine("level " + level++ + ":");
+                Node.Print(puzzle);
             }
         }
 
