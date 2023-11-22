@@ -1,4 +1,5 @@
-﻿using BFS_Approach;
+﻿using AStar_Approach;
+using BFS_Approach;
 using BiDirectional_Approach;
 
 //var rootPuzzle = "566274131 AB";
@@ -11,6 +12,10 @@ var rootPuzzle = "64 85B12793A";
 
 var bd = new BiDirectional(rootPuzzle, CalculateGoal(rootPuzzle));
 bd.BFS();
+
+var AS = new AStar(rootPuzzle, CalculateGoal(rootPuzzle));
+AS.GraphSearch();
+//AS.TreeSearch();
 
 
 

@@ -5,6 +5,7 @@ public class Node
     public readonly string puzzle;
     public readonly int spaceIndex;
     public readonly int f;
+    public readonly int g;
     public readonly Node? parent;
 
     public Node(string puzzle, int spaceIndex, Node? parent)
@@ -12,7 +13,8 @@ public class Node
         this.puzzle = puzzle;
         this.spaceIndex = spaceIndex;
         this.parent = parent;
-        f = CalculateManhattanDistance() + parent?.f + 1 ?? 0;
+        g = parent?.g + 1 ?? 0;
+        f = CalculateManhattanDistance() + g;
     }
 
     private int CalculateManhattanDistance()

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AStar_Approach\AStar_Approach.csproj" />
     <ProjectReference Include="..\BFS\BFS_Approach.csproj" />
     <ProjectReference Include="..\BiDirectional_Aproach\BiDirectional_Approach.csproj" />
   </ItemGroup>
