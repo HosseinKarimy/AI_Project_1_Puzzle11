@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Text;
+using System.Xml.XPath;
 
 namespace AStar_Approach;
 
@@ -15,7 +17,7 @@ public class AStar
         this.root = new Node(mappedRoot, mappedRoot.IndexOf(' '), null);
     }
 
-    public void GraphSearch()
+    public List<string> GraphSearch()
     {
         HashSet<Node> frontierSet = new();
         HashSet<Node> Explored = new();
@@ -43,9 +45,7 @@ public class AStar
                 Console.WriteLine("RunTime: " + elapsedTime);
                 Console.WriteLine($"frontier count = {frontier.Count}");
                 Console.WriteLine($"explored count = {Explored.Count}");
-                int level = 0;
-                PrintResult(node, ref level);
-                return;
+                return CalculatePath(node);
             }
             Explored.Add(node);
 
@@ -71,6 +71,7 @@ public class AStar
         }
 
         Console.WriteLine("not Found");
+        return new List<string>();
     }
 
     public void TreeSearch()
@@ -108,6 +109,17 @@ public class AStar
     }
 
 
+    public List<string> CalculatePath(Node? lastNode)
+    {
+        List<string> result = new();
+        while (lastNode is not null)
+        {
+            result.Add(UnMapPuzzle(lastNode.puzzle, pattern!));
+            lastNode = lastNode.parent;
+        }
+        return result;
+    }
+
     private void PrintResult(Node node, ref int level)
     {
         if (node.parent is null)
@@ -121,6 +133,18 @@ public class AStar
         Console.WriteLine("level " + level++ + ":");
         Node.Print(UnMapPuzzle(node.puzzle, pattern!));
         Console.WriteLine("____________________________________");
+    }
+
+    public static void PrintResult(List<string> result)
+    {
+        result.Reverse();
+        int level = 0;
+        foreach (var puzzle in result)
+        {
+            Console.WriteLine("____________________________________");
+            Console.WriteLine("level " + level++ + ":");
+            Node.Print(puzzle);
+        }
     }
 
     private static string MapPuzzle(string source, string pattern)

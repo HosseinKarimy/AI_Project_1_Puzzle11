@@ -14,7 +14,7 @@ var bd = new BiDirectional(rootPuzzle, CalculateGoal(rootPuzzle));
 bd.BFS();
 
 var AS = new AStar(rootPuzzle, CalculateGoal(rootPuzzle));
-AS.GraphSearch();
+AStar.PrintResult(AS.GraphSearch());
 //AS.TreeSearch();
 
 
