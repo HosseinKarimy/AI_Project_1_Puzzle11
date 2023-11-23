@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace BFS_Approach;
 
@@ -16,36 +17,7 @@ public class BFS
         frontier.Enqueue(this.root);
     }
 
-    public void TreeSearch()
-    {
-        Stopwatch sw = new();
-        sw.Start();
-
-        while (frontier.Count > 0)
-        {
-            var node = frontier.Dequeue();
-            if (node == goal)
-            {
-                sw.Stop();
-                TimeSpan ts = sw.Elapsed;
-                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-                Console.WriteLine("RunTime: " + elapsedTime);
-                Console.WriteLine($"frontier count = {frontier.Count}");
-                int level = 0;
-                PrintResult(node, ref level);
-                return;
-            }
-
-            foreach (Node n in node.GetActions())
-            {
-                frontier.Enqueue(n);
-            }
-        }
-
-        Console.WriteLine("Not Found");
-    }
-
-    public void GraphSearch()
+    public (string? status, List<string>? steps) GraphSearch()
     {
         Stopwatch sw = new();
         sw.Start();
@@ -59,13 +31,12 @@ public class BFS
             {
                 sw.Stop();
                 TimeSpan ts = sw.Elapsed;
+                var status = new StringBuilder();
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-                Console.WriteLine("RunTime: " + elapsedTime);
-                Console.WriteLine($"frontier count = {frontier.Count}");
-                Console.WriteLine($"explored count = {frontierAndExplored.Count - frontier.Count}");
-                int level = 0;
-                PrintResult(node, ref level);
-                return;
+                status.AppendLine("RunTime: " + elapsedTime);
+                status.AppendLine($"frontier count = {frontier.Count}");
+                status.AppendLine($"explored count = {frontierAndExplored.Count - frontier.Count}");
+                return (status.ToString(), CalculatePath(node));
             }
             frontierAndExplored.Add(node);
 
@@ -77,25 +48,18 @@ public class BFS
                 }
             }
         }
-
-        Console.WriteLine("Not Found");
+        return (null, null);
     }
 
-
-    private void PrintResult(Node node, ref int level)
+    public static List<string> CalculatePath(Node? lastNode)
     {
-        if (node.parent is null)
+        List<string> result = new();
+        while (lastNode is not null)
         {
-            Console.WriteLine("level " + level++ + ":");
-            node.Print();
-            Console.WriteLine("____________________________________");
-            return;
+            result.Add(lastNode.puzzle);
+            lastNode = lastNode.parent;
         }
-        PrintResult(node.parent, ref level);
-        Console.WriteLine("level " + level++ + ":");
-        node.Print();
-        Console.WriteLine("____________________________________");
+        return result;
     }
-
 
 }

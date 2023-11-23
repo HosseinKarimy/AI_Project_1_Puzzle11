@@ -149,29 +149,6 @@ public class Node
         (chars[second], chars[first]) = (chars[first], chars[second]);
         return new string(chars);
     }
-
-    public void Print()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                Console.Write($"{puzzle[i * 4 + j]} ");
-            }
-            Console.WriteLine();
-        }
-    }
-
-    public static void Print(string puzzle)
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                Console.Write($"{puzzle[i * 4 + j]} ");
-            }
-            Console.WriteLine();
-        }
-    }
+    
 }
 

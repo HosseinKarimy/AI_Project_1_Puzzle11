@@ -17,7 +17,7 @@ namespace BiDirectional_Approach
             this.goal = new Node(goal, 11, null);
         }
 
-        public (string status , List<string> steps) BFS()
+        public (string? status, List<string>? steps) BFS()
         {
 
             FromRootFrontier.Enqueue(root);
@@ -43,7 +43,6 @@ namespace BiDirectional_Approach
 
             if (commonNode is null)
             {
-                Console.WriteLine("Not Found");
                 return (null,null);
             }
 
@@ -51,19 +50,16 @@ namespace BiDirectional_Approach
             var nodeFromRoot = frontierAndExplored_FromRootPath.First(x => x.GetHashCode() == commonNode!.GetHashCode());
 
             TimeSpan ts = sw.Elapsed;
-            var result = new StringBuilder();
+            var status = new StringBuilder();
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            result.AppendLine("RunTime: " + elapsedTime);
-            result.AppendLine($"From Root frontier count = {FromRootFrontier.Count}");
-            result.AppendLine($"From Root explored count = {frontierAndExplored_FromRootPath.Count - FromRootFrontier.Count}");
-            result.AppendLine($"From Goal frontier count = {FromGoalFrontier.Count}");
-            result.AppendLine($"From Goal explored count = {frontierAndExplored_FromGoalPath.Count - FromGoalFrontier.Count}");
+            status.AppendLine("** BiDirectional Graph Approach **");
+            status.AppendLine("RunTime: " + elapsedTime);
+            status.AppendLine($"From Root frontier count = {FromRootFrontier.Count}");
+            status.AppendLine($"From Root explored count = {frontierAndExplored_FromRootPath.Count - FromRootFrontier.Count}");
+            status.AppendLine($"From Goal frontier count = {FromGoalFrontier.Count}");
+            status.AppendLine($"From Goal explored count = {frontierAndExplored_FromGoalPath.Count - FromGoalFrontier.Count}");
 
-            //int level = 0;
-            //PrintResult(nodeFromRoot, ref level);
-            //PrintResult2(nodeFromGoal.parent!, ref level);
-
-            return (result.ToString() , CalculatePath(nodeFromRoot,nodeFromGoal.parent));
+            return (status.ToString() , CalculatePath(nodeFromRoot,nodeFromGoal.parent));
 
         }
 
@@ -110,47 +106,5 @@ namespace BiDirectional_Approach
             }
             return result;
         }
-
-        public static void PrintResult(List<string> result)
-        {
-            int level = 0;
-            foreach (var puzzle in result)
-            {
-                Console.WriteLine("____________________________________");
-                Console.WriteLine("level " + level++ + ":");
-                Node.Print(puzzle);
-            }
-        }
-
-        void PrintResult(Node node, ref int level)
-        {
-            if (node.parent is null)
-            {
-                Console.WriteLine("level " + level++ + ":");
-                node.Print();
-                Console.WriteLine("____________________________________");
-                return;
-            }
-            PrintResult(node.parent, ref level);
-            Console.WriteLine("level " + level++ + ":");
-            node.Print();
-            Console.WriteLine("____________________________________");
-        }
-
-        void PrintResult2(Node node, ref int level)
-        {
-            if (node.parent is null)
-            {
-                Console.WriteLine("level " + level++ + ":");
-                node.Print();
-                Console.WriteLine("____________________________________");
-                return;
-            }
-            Console.WriteLine("level " + level++ + ":");
-            node.Print();
-            Console.WriteLine("____________________________________");
-            PrintResult2(node.parent, ref level);
-        }
-
     }
 }
