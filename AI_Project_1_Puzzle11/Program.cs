@@ -3,7 +3,7 @@ using BFS_Approach;
 using BiDirectional_Approach;
 
 //var rootPuzzle = "566274131 AB";
-var rootPuzzle = "15562146 777";
+var rootPuzzle = "88862146 787";
 //var rootPuzzle = "64 85B12793A"; //Accept
 //var rootPuzzle = "6B 85312794A"; //Accept
 //var rootPuzzle = "678395142 AB"; //Accept
