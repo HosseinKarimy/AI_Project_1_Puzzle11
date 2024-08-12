@@ -5,3 +5,5 @@ This program tries to solve this puzzle with as little moving as possible.
 
 Input: initial state op puzzle
 Output: calculate the steps for solving puzzle
+
+we try solve the puzzle with 3 Approaches: A* , BFS , Bidirectional 
